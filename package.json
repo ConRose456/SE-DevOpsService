@@ -1,0 +1,40 @@
+{
+  "name": "@con-rose/devopsservice",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsx src/bin/devServer.ts",
+    "build": "npm install && npm run build:graphql && node esbuild.config.js",
+    "merge:graphql": "ts-node src/graphql/mergeSchemas.mjs",
+    "generate:types": "graphql-codegen --config src/graphql/codegen.ts",
+    "build:graphql": "npm run merge:graphql && npm run generate:types",
+    "lint": "prettier --ignore-path ../../.prettierignore --write '.' && eslint --fix \"**/*.ts\""
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/typescript": "^4.1.6",
+    "@graphql-tools/graphql-file-loader": "^8.0.20",
+    "@graphql-tools/load": "^8.1.0",
+    "@graphql-tools/load-files": "^7.0.1",
+    "@graphql-tools/merge": "^9.0.24",
+    "esbuild": "^0.25.5",
+    "eslint": "^9.29.0",
+    "graphql": "^16.11.0",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "apollo-server-lambda": "^3.13.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "lodash": "^4.17.21",
+    "lodash.merge": "^4.6.2"
+  }
+}

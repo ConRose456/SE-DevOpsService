@@ -1,0 +1,8 @@
+extend type Hello {
+  world: World
+}
+
+type World {
+  id: String
+  text: String
+}

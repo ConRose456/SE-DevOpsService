@@ -1,0 +1,4 @@
+archive_system: archive_empty
+data_files:
+  - index.js
+  - index.js.map
