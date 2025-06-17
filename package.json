@@ -2,6 +2,7 @@
   "name": "@con-rose/devopsservice",
   "version": "1.0.0",
   "type": "module",
+  "files": ["dist"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx src/bin/devServer.ts",
