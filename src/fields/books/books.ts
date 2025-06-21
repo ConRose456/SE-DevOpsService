@@ -1,16 +1,17 @@
 import { GraphQLResolveInfo } from "graphql";
 import { Book, QueryBooksArgs } from "../../generated/graphqlTypes";
+import { Context } from "../../context";
 
-export const booksResolver = (
+export const booksResolver = async (
   _sources: any,
   args: QueryBooksArgs,
-  _content: any,
+  context: Context,
   _info: GraphQLResolveInfo,
-): Array<Book> => {
-  return args.ids.map((id) => ({
-    id: id ?? "",
-    title: "Harry Potter",
-    authors: ["JK-Rowling"],
-    images: ["url test"],
-  }));
+): Promise<Array<Book>> => {
+  const data = await context.dataSources.catalogue.batchFetchCatalogueDocuments(
+    args.ids.map((id) => ({ id, field: "book" })),
+  );
+
+  console.log(JSON.stringify(data, null, 2));
+  return data.map(({ document }) => document);
 };

@@ -1,3 +1,5 @@
+process.env.STAGE = "Beta";
+
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
@@ -7,6 +9,7 @@ import resolvers from "../resolvers";
 import { readFileSync } from "fs";
 import path from "path";
 import gql from "graphql-tag";
+import { dataSources } from "../dataSources";
 
 function graphqlLoader(filePath: string) {
   const content = readFileSync(path.resolve(filePath), "utf8");
@@ -27,7 +30,12 @@ app.use(bodyParser.json());
 
 async function startServer() {
   await server.start();
-  app.use("/graphql", expressMiddleware(server));
+  app.use(
+    "/graphql",
+    expressMiddleware(server, {
+      context: async () => ({ dataSources: dataSources() }),
+    }),
+  );
 
   app.listen({ port: 4000 }, () =>
     console.log("🚀 Server ready at http://localhost:4000/graphql"),

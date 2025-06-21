@@ -7,5 +7,5 @@ type Book {
   id: String!
   title: String!
   authors: [String!]!
-  images: [String!]
+  images: [String]
 }
