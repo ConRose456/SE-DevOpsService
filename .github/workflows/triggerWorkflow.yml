@@ -9,6 +9,17 @@ jobs:
   trigger_main_repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout devopsservice
+        uses: actions/checkout@v4
+        with:
+          repository: ConRose456/SE-DevOpsService
+          token: ${{ secrets.MY_GH_PAT }}
+          path: devopsservice
+          
+      - name: Publish new version
+        run: |
+          cd devops && npm run publish:github
+
       - name: Trigger SE-DevOpsCDK Workflow
         run: |
           curl -X POST \
