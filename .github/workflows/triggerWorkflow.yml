@@ -1,0 +1,17 @@
+name: Trigger Main Repository Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger_main_repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger SE-DevOpsCDK Workflow
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_GH_PAT }}" \
+            -d '{"event_type": "se-devopsservice-trigger"}' \
+            https://api.github.com/repos/conrose456/SE-DevOpsCDK/dispatches
