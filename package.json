@@ -2,7 +2,9 @@
   "name": "@conrose456/devopsservice",
   "version": "1.0.2",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",

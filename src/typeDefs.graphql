@@ -1,7 +1,11 @@
 type Query {
-  hello: Hello
+  book(id: String!): Book
+  books(ids: [String!]!): [Book]
 }
 
-type Hello {
-  id: String
+type Book {
+  id: String!
+  title: String!
+  authors: [String!]!
+  images: [String!]
 }
