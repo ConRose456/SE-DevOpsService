@@ -15,10 +15,15 @@ jobs:
           repository: ConRose456/SE-DevOpsService
           token: ${{ secrets.MY_GH_PAT }}
           path: devopsservice
-          
+
+      - name: Configure npm to use GitHub Packages
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.MY_GH_PAT }}" > devopsservice/.npmrc
+          echo "@conrose456:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+
       - name: Publish new version
         run: |
-          cd devops && npm run publish:github
+          cd devopsservice && npm run publish:github
 
       - name: Trigger SE-DevOpsCDK Workflow
         run: |
