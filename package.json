@@ -1,12 +1,19 @@
 {
-  "name": "@con-rose/devopsservice",
-  "version": "1.0.0",
+  "name": "@conrose456/devopsservice",
+  "version": "1.0.2",
   "type": "module",
   "files": ["dist"],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx src/bin/devServer.ts",
     "build": "npm install && npm run build:graphql && node esbuild.config.js",
+    "publish:github": "npm run build && npm publish",
     "merge:graphql": "ts-node src/graphql/mergeSchemas.mjs",
     "generate:types": "graphql-codegen --config src/graphql/codegen.ts",
     "build:graphql": "npm run merge:graphql && npm run generate:types",
