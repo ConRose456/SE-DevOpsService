@@ -42,12 +42,12 @@ export class CatalogueDataSource
     const responses = await this.dynamoDbClient.batchGetItems(
       catalogueIds.map(toCatalogueKey),
     );
-    return responses.map((response) => ({
-      ...response,
-      document: response.document 
-        ? JSON.parse(response.document)
-        : undefined,
-    })).filter((document) => document.document) as Array<CatalogueData>;
+    return responses
+      .map((response) => ({
+        ...response,
+        document: response.document ? JSON.parse(response.document) : undefined,
+      }))
+      .filter((document) => document.document) as Array<CatalogueData>;
   };
 }
 
@@ -71,12 +71,14 @@ export class StubCatalogueDataSource
   public batchFetchCatalogueDocuments = async (
     catalogueIds: Array<CatalogueId>,
   ): Promise<Array<CatalogueData>> =>
-    catalogueIds.map((id) => ({
-      id: toCatalogueKey(id),
-      document: this.stubs.has(toCatalogueKey(id)) 
-        ? JSON.parse(this.stubs.get(toCatalogueKey(id)))
-        : undefined,
-    })).filter((document) => document.document);
+    catalogueIds
+      .map((id) => ({
+        id: toCatalogueKey(id),
+        document: this.stubs.has(toCatalogueKey(id))
+          ? JSON.parse(this.stubs.get(toCatalogueKey(id)))
+          : undefined,
+      }))
+      .filter((document) => document.document);
 }
 
 const toCatalogueKey = (catalogueId: CatalogueId) =>

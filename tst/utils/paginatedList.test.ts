@@ -22,85 +22,82 @@ const TEST_BOOK_THREE = {
 };
 
 describe("Paginated List", () => {
-    it("returns  only the request nnumber of edges", async () => {
-        const result = paginateResponse(
-            [TEST_BOOK_ONE, TEST_BOOK_TWO],
-            {
-                first: 1,
-            }
-        );
-
-        expect(result.edges).toHaveLength(1);
-        expect(result).toEqual({
-            total: 2,
-            hasNext: true,
-            edges: [
-                {
-                    cursor: TEST_BOOK_ONE.id,
-                    node: TEST_BOOK_ONE
-                }
-            ]
-        });
+  it("returns  only the request nnumber of edges", async () => {
+    const result = paginateResponse([TEST_BOOK_ONE, TEST_BOOK_TWO], {
+      first: 1,
     });
 
-    it("returns the correct page of books", async () => {
-        const result = paginateResponse(
-            [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
-            {
-                first: 1,
-                after: `${TEST_BOOK_ONE.id}`
-            }
-        );
-
-        expect(result.edges).toHaveLength(1);
-        expect(result).toEqual({
-            total: 3,
-            hasNext: true,
-            edges: [
-                {
-                    cursor: TEST_BOOK_TWO.id,
-                    node: TEST_BOOK_TWO
-                }
-            ]
-        });
+    expect(result.edges).toHaveLength(1);
+    expect(result).toEqual({
+      total: 2,
+      hasNext: true,
+      edges: [
+        {
+          cursor: TEST_BOOK_ONE.id,
+          node: TEST_BOOK_ONE,
+        },
+      ],
     });
+  });
 
-    it("handles an invalid cursor correctly by returning the inital content", async () => {
-        const result = paginateResponse(
-            [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
-            {
-                first: 1,
-                after: `90876597`
-            }
-        );
+  it("returns the correct page of books", async () => {
+    const result = paginateResponse(
+      [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
+      {
+        first: 1,
+        after: `${TEST_BOOK_ONE.id}`,
+      },
+    );
 
-        expect(result.edges).toHaveLength(1);
-        expect(result).toEqual({
-            total: 3,
-            hasNext: true,
-            edges: [
-                {
-                    cursor: TEST_BOOK_ONE.id,
-                    node: TEST_BOOK_ONE
-                }
-            ]
-        });
+    expect(result.edges).toHaveLength(1);
+    expect(result).toEqual({
+      total: 3,
+      hasNext: true,
+      edges: [
+        {
+          cursor: TEST_BOOK_TWO.id,
+          node: TEST_BOOK_TWO,
+        },
+      ],
     });
+  });
 
-    it("handles an cursor for non existing page bt returning empty edges", async () => {
-        const result = paginateResponse(
-            [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
-            {
-                first: 1,
-                after: `${TEST_BOOK_THREE.id}`
-            }
-        );
+  it("handles an invalid cursor correctly by returning the inital content", async () => {
+    const result = paginateResponse(
+      [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
+      {
+        first: 1,
+        after: `90876597`,
+      },
+    );
 
-        expect(result.edges).toHaveLength(0);
-        expect(result).toEqual({
-            total: 3,
-            hasNext: false,
-            edges: []
-        });
+    expect(result.edges).toHaveLength(1);
+    expect(result).toEqual({
+      total: 3,
+      hasNext: true,
+      edges: [
+        {
+          cursor: TEST_BOOK_ONE.id,
+          node: TEST_BOOK_ONE,
+        },
+      ],
     });
+  });
+
+  it("handles an cursor for non existing page bt returning empty edges", async () => {
+    const result = paginateResponse(
+      [TEST_BOOK_ONE, TEST_BOOK_TWO, TEST_BOOK_THREE],
+      {
+        first: 1,
+        after: `${TEST_BOOK_THREE.id}`,
+      },
+    );
+
+    expect(result.edges).toHaveLength(0);
+    expect(result).toEqual({
+      total: 3,
+      hasNext: false,
+      edges: [],
+    });
+  });
 });

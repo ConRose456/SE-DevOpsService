@@ -19,8 +19,8 @@ export const paginateResponse = (list: any[], args: PagnationArgs) => {
     total: list.length,
     hasNext: paginatedList.length > first,
     edges: response.map((item) => ({
-        cursor: item.id,
-        node: item,
+      cursor: item.id,
+      node: item,
     })),
   };
 };

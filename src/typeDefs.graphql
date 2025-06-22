@@ -1,6 +1,15 @@
 type Query {
   book(id: String!): Book
-  books(ids: [String!]!, first: Int!, after: String): BookEdges
+  books(
+    ids: [String!]!
+    first: Int!
+    after: String
+    filter: BooksFilter
+  ): BookEdges
+}
+
+input BooksFilter {
+  titleText: String
 }
 
 type BookEdges {
