@@ -21,6 +21,10 @@ export class DynamoDbClient {
     this.docClient = DynamoDBDocumentClient.from(client);
   }
 
+  async fetchItem(key: string, tableNameOverride?: string) {
+    return this.batchGetItems([key], tableNameOverride)[0];
+  }
+
   async batchGetItems(
     keys: Array<string>,
     tableNameOverride?: string,
