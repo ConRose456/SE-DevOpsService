@@ -1,6 +1,6 @@
 {
   "name": "@conrose456/devopsservice",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "files": [
     "dist"
@@ -12,7 +12,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "tsx src/bin/devServer.ts",
     "build": "npm install && npm run build:graphql && node esbuild.config.js",
     "publish:github": "npm run build && npm publish",
@@ -31,11 +31,17 @@
     "@graphql-tools/load": "^8.1.0",
     "@graphql-tools/load-files": "^7.0.1",
     "@graphql-tools/merge": "^9.0.24",
+    "@swc/core": "^1.12.5",
+    "@swc/jest": "^0.2.38",
+    "@types/jest": "^30.0.0",
     "apollo-datasource": "^3.3.2",
     "esbuild": "^0.25.5",
     "eslint": "^9.29.0",
     "graphql": "^16.11.0",
+    "jest": "^30.0.2",
+    "jest-transform-graphql": "^2.1.0",
     "prettier": "^3.5.3",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
@@ -49,5 +55,26 @@
     "express": "^5.1.0",
     "lodash": "^4.17.21",
     "lodash.merge": "^4.6.2"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "coverageProvider": "v8",
+    "coverageThreshold": {
+      "global": {
+        "statements": 80,
+        "branches": 80,
+        "functions": 80,
+        "lines": 80
+      }
+    },
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    },
+    "silent": true,
+    "transform": {
+      "\\.graphql$": "jest-transform-graphql",
+      "^.+\\.(t|j)sx?$": "@swc/jest"
+    },
+    "notify": false
   }
 }

@@ -1,9 +1,12 @@
-import { CatalogueDataSource } from "./dataSources/catalogueDataSource";
+import {
+  CatalogueDataSource,
+  ICatalogueDataSource,
+} from "./dataSources/catalogueDataSource";
 
 const singletonCatalogueDataSource = new CatalogueDataSource();
 
 export type DataSources = {
-  catalogue: CatalogueDataSource;
+  catalogue: ICatalogueDataSource;
 };
 
 export const dataSources = () => ({

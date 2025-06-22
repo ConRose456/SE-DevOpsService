@@ -8,5 +8,5 @@
     "outDir": "dist"
   },
   "lib": ["es2015"],
-  "include": ["**/*.ts", "src/graphql/mergeSchemas.mjs"]
+  "include": ["**/*.ts", "src/graphql/mergeSchemas.mjs", "jest.config.js"]
 }

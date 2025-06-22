@@ -1,10 +1,12 @@
 import { booksResolver } from "./books/books";
 
+export const MAX_PAGE_SIZE = 21;
+
 export default {
   Query: {
     book: (parent, args, context, info) =>
-      booksResolver(parent, { ids: [args.id] }, context, info).then(
-        (data) => data[0],
+      booksResolver(parent, { ...args, ids: [args.id] }, context, info).then(
+        (data) => data.edges[0].node,
       ),
     books: booksResolver,
   },

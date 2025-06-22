@@ -1,11 +1,23 @@
 type Query {
   book(id: String!): Book
-  books(ids: [String!]!): [Book]
+  books(ids: [String!]!, first: Int!, after: String): BookEdges
+}
+
+type BookEdges {
+  total: Int!
+  edges: [BookNode]!
+  hasNext: Boolean!
+}
+
+type BookNode {
+  node: Book
+  cursor: String!
 }
 
 type Book {
   id: String!
   title: String!
   authors: [String!]!
+  description: String
   images: [String]
 }
