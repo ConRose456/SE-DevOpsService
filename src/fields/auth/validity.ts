@@ -1,7 +1,12 @@
 import { Context } from "../../context";
 import { Validity } from "../../generated/graphqlTypes";
 
-const validityResolver = (source, args, context: Context, info): Validity => {
+export const validityResolver = (
+  source,
+  args,
+  context: Context,
+  info,
+): Validity => {
   const auth = context.isAuthed();
   return auth.decoded?.userId
     ? {
