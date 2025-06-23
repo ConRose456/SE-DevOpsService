@@ -44,7 +44,7 @@ describe("Sign In Resolver", () => {
       JSON.stringify({
         username: "fake-user",
         password:
-          "$2b$12$nFx6oKiPLtlNdyLAsaZhmOJhNnJxtbYt.B0GwrIsmKwKrTs2w00Q6",
+          "3fa6ef88d9668591cf7bfcde26f3cbdffa2d50795baee8866ee3a5dc71dfd3b9:6120d95eef72b4c8a318fd0ac7334a1c84dc0444073b6202e6fe98a269550186eba00aff50434b0df5aa5c86e59c7d00a2814b0adf21bab374d48e46a8513e28",
         email: "fake-email",
         name: "fake-name",
         surname: "fake-surname",

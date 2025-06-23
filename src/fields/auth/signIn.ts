@@ -1,8 +1,9 @@
 import { GraphQLResolveInfo } from "graphql";
 import { Context } from "../../context";
 import { MutationSignInArgs } from "../../generated/graphqlTypes";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { randomBytes, scrypt, timingSafeEqual } from "crypto";
+import { promisify } from "util";
 
 export const signInResolver = async (
   _source: any,
@@ -11,9 +12,7 @@ export const signInResolver = async (
   _info: GraphQLResolveInfo,
 ) => {
   const { username, password } = args;
-
   const data = await context.dataSources.auth.fetchUserDocument({ username });
-
   const { document } = data;
 
   if (!document) {
@@ -63,9 +62,23 @@ export const signInResolver = async (
   throw new Error("Invalid credentials");
 };
 
+const scryptAsync = promisify(scrypt);
+
 async function verifyPassword(
   plainPassword: string,
   hash: string,
 ): Promise<boolean> {
-  return await bcrypt.compare(plainPassword, hash);
+    console.log("Verify");
+  const [salt, key] = hash.split(':');
+  const keyBuffer = Buffer.from(key, 'hex');
+  const derivedKey = (await scryptAsync(plainPassword, salt, 64)) as Buffer;
+  return timingSafeEqual(keyBuffer, derivedKey);
 }
+
+export async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(32).toString('hex');
+  const derivedKey = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${salt}:${derivedKey.toString('hex')}`;
+}
+
+hashPassword("fake-password").then(console.log)
