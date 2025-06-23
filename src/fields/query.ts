@@ -1,3 +1,4 @@
+import { signInResolver } from "./auth/signIn";
 import { booksResolver } from "./books/books";
 
 export const MAX_PAGE_SIZE = 21;
@@ -9,5 +10,9 @@ export default {
         (data) => data.edges[0].node,
       ),
     books: booksResolver,
+    auth: (...args) => ({}),
+  },
+  Mutation: {
+    signIn: signInResolver,
   },
 };

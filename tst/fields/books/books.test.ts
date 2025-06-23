@@ -1,5 +1,5 @@
-import { booksResolver } from "../../src/fields/books/books";
-import { stubContext } from "../stubContext";
+import { booksResolver } from "../../../src/fields/books/books";
+import { stubContext } from "../../stubContext";
 
 const TEST_BOOK_ONE = {
   id: 123456789,

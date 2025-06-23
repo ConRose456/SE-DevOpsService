@@ -1,7 +1,4 @@
-import { 
-  AuthDataSource, 
-  IAuthDataSource
-} from "./dataSources/authDataSource";
+import { AuthDataSource, IAuthDataSource } from "./dataSources/authDataSource";
 import {
   CatalogueDataSource,
   ICatalogueDataSource,
@@ -11,7 +8,7 @@ const singletonCatalogueDataSource = new CatalogueDataSource();
 
 export type DataSources = {
   catalogue: ICatalogueDataSource;
-  auth: IAuthDataSource
+  auth: IAuthDataSource;
 };
 
 export const dataSources = () => ({

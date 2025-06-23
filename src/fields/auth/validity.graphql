@@ -1,0 +1,5 @@
+type Validity {
+  expireDate: String
+  isValid: Boolean!
+  isAdmin: Boolean!
+}

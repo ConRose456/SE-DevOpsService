@@ -6,6 +6,20 @@ type Query {
     after: String
     filter: BooksFilter
   ): BookEdges
+  auth: isAuthed
+}
+
+type AuthPayload {
+  token: String!
+}
+
+type Mutation {
+  signIn(username: String!, password: String!): AuthPayload!
+}
+
+type isAuthed {
+  validity: Validity
+  displayText: DisplayText
 }
 
 input BooksFilter {

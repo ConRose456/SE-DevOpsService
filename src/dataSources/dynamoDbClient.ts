@@ -22,7 +22,9 @@ export class DynamoDbClient {
   }
 
   async fetchItem(key: string, tableNameOverride?: string) {
-    return this.batchGetItems([key], tableNameOverride)[0];
+    return await this.batchGetItems([key], tableNameOverride).then(
+      (res) => res[0],
+    );
   }
 
   async batchGetItems(
