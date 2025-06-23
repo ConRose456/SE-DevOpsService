@@ -13,8 +13,13 @@ type AuthPayload {
   token: String!
 }
 
+type SignOutPayload {
+  success: Boolean!
+}
+
 type Mutation {
   signIn(username: String!, password: String!): AuthPayload!
+  signOut: SignOutPayload!
 }
 
 type isAuthed {

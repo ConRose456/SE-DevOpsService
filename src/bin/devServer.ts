@@ -56,7 +56,7 @@ async function startServer() {
         return {
           res,
           req,
-          isAuthed: isValidJWT(cookies["bw-jwt-auth-token"]),
+          isAuthed: isValidJWT(req),
           cookies: cookies,
           dataSources: dataSources(),
         };
@@ -69,9 +69,11 @@ async function startServer() {
   );
 }
 
-const isValidJWT = (token) => {
+const isValidJWT = (req) => {
   return () => {
     try {
+      const cookies = cookie.parse(req.headers.cookie || "");
+      const token = cookies["bw-jwt-auth-token"];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       return { decoded };
     } catch (error) {

@@ -1,4 +1,5 @@
 import { signInResolver } from "./auth/signIn";
+import { signOutResolver } from "./auth/signOut";
 import { booksResolver } from "./books/books";
 
 export const MAX_PAGE_SIZE = 21;
@@ -14,5 +15,6 @@ export default {
   },
   Mutation: {
     signIn: signInResolver,
+    signOut: signOutResolver,
   },
 };
