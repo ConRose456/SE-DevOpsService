@@ -1,6 +1,6 @@
 {
   "name": "@conrose456/devopsservice",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "files": [
     "dist"

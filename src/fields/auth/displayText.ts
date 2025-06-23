@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { Context } from "../../context";
 import { DisplayText } from "../../generated/graphqlTypes";
 
-const displayText = (
+export const displayTextResolver = (
   _source: any,
   _args: any,
   context: Context,
@@ -17,6 +17,9 @@ const displayText = (
 
 export default {
   isAuthed: {
-    displayText: displayText,
+    displayText: displayTextResolver,
   },
 };
+
+// const secret = crypto.randomBytes(64).toString('hex'); // Example: 64 bytes, hexadecimal string
+// console.log(secret);
