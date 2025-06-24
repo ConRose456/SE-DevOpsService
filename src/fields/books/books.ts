@@ -14,7 +14,7 @@ export const booksResolver = async (
   context: Context,
   _info: GraphQLResolveInfo,
 ): Promise<BookEdges> => {
-  const ids = sources.length ? sources : args.ids;
+  const ids = sources?.length ? sources : args.ids;
 
   if (!ids.length) {
     return { total: 0, edges: [], hasNext: false };
