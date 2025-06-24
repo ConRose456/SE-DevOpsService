@@ -7,7 +7,7 @@ export const signOutResolver = async (
   context: Context,
   info: GraphQLResolveInfo,
 ) => {
-  const auth = context.isAuthed();
+  const auth = await context.isAuthed();
   const userId = auth.decoded?.userId ?? "";
 
   if (context.event) {

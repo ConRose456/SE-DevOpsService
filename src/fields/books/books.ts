@@ -16,7 +16,7 @@ export const booksResolver = async (
 ): Promise<BookEdges> => {
   const ids = sources?.length ? sources : args.ids;
 
-  if (!ids.length) {
+  if (!ids?.length) {
     return { total: 0, edges: [], hasNext: false };
   }
   const data = await context.dataSources.catalogue.batchFetchCatalogueDocuments(

@@ -8,7 +8,7 @@ export const getOwnedBooks = async (
   context: Context,
   info: GraphQLResolveInfo,
 ) => {
-  const isAuthed = context.isAuthed();
+  const isAuthed = await context.isAuthed();
 
   if (isAuthed?.decoded?.userId) {
     const data = await context.dataSources.catalogue.fetchCatalogueDocument({
