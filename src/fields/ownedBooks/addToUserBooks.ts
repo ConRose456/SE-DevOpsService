@@ -31,7 +31,13 @@ export const addToUserBooksResolver = async (
           newDocument,
         );
 
-      return reponse ? { success: true } : { success: false };
+      if (reponse) {
+        console.log(
+          `[BOOK ADDED TO COLLECTION] - ${decoded.userId} added book with id: ${args.id} to thier collection.`,
+        );
+        return { success: true };
+      }
+      throw Error("Failed to write document");
     } catch (error) {
       console.log(
         `[Error] Failed to write document ${"ownedBooks|" + decoded.userId} - ${error}`,
