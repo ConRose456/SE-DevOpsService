@@ -16,5 +16,6 @@ export default {
   Mutation: {
     signIn: signInResolver,
     signOut: signOutResolver,
+    userOwned: (...args) => ({}),
   },
 };

@@ -33,7 +33,8 @@ const isValidJWT = (event) => {
       const authDataSource = new AuthDataSource();
       const reqCookies = event?.cookies ?? [];
 
-      const secret = await authDataSource.fetchJwtSecret();
+      const secret =
+        process.env.LOCAL_SECRET ?? (await authDataSource.fetchJwtSecret());
       const token = parseCookies("bw-jwt-auth-token", reqCookies);
 
       const decoded = jwt.verify(token, secret);

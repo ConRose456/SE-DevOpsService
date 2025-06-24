@@ -20,6 +20,17 @@ type SignOutPayload {
 type Mutation {
   signIn(username: String!, password: String!): AuthPayload!
   signOut: SignOutPayload!
+  userOwned: UserOwned
+}
+
+type UserOwned {
+  isOwned(id: String!): Boolean!
+  addToOwnedBooks(id: String!): OwnedBooksEditResponse
+  removeFromOwnedBooks(id: String!): OwnedBooksEditResponse
+}
+
+type OwnedBooksEditResponse {
+  success: Boolean!
 }
 
 type isAuthed {

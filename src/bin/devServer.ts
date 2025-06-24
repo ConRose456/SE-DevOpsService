@@ -74,7 +74,7 @@ const isValidJWT = (req) => {
     try {
       const cookies = cookie.parse(req.headers.cookie || "");
       const token = cookies["bw-jwt-auth-token"];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.LOCAL_SECRET);
       return { decoded };
     } catch (error) {
       console.log(

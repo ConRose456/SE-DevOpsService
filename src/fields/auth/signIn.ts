@@ -30,13 +30,15 @@ export const signInResolver = async (
       isAdmin: document.isAdmin,
     };
 
-    const secret = await context.dataSources.auth.fetchJwtSecret();
+    const secret =
+      process.env.LOCAL_SECRET ??
+      (await context.dataSources.auth.fetchJwtSecret());
     const token = jwt.sign(
       {
         userId: user.userId,
         isAdmin: user.isAdmin,
       },
-      secret ?? process.env.JWT_SECRET!,
+      secret,
       {
         expiresIn: "1h",
       },
@@ -45,7 +47,7 @@ export const signInResolver = async (
     if (context.event) {
       context.setCookie("bw-jwt-auth-token", token);
     } else if (context.res) {
-      context.express.res.cookie("bw-jwt-auth-token", token, {
+      context.res.cookie("bw-jwt-auth-token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",

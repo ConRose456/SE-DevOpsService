@@ -4,8 +4,11 @@ import {
   DynamoDBClient,
   DynamoDBClientConfig,
 } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { gunzipSync } from "zlib";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { promisify } from "util";
+import { gunzipSync, gzip } from "zlib";
+
+const gzipAsync = promisify(gzip);
 
 export class DynamoDbClient {
   private tableName: string;
@@ -68,4 +71,25 @@ export class DynamoDbClient {
       throw new Error("Failed to batch fetch items from DynamoDB");
     }
   }
+
+  public putItem = async (
+    key: string,
+    document: Record<string, unknown>,
+  ): Promise<void> => {
+    const gzip = await gzipAsync(JSON.stringify(document));
+    const base64 = gzip.toString("base64");
+
+    const item = {
+      ".partitionKey": key,
+      document: base64,
+      timestamp: new Date().toISOString(),
+    };
+
+    await this.docClient.send(
+      new PutCommand({
+        TableName: this.tableName,
+        Item: item,
+      }),
+    );
+  };
 }

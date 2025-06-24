@@ -19,6 +19,10 @@ export interface ICatalogueDataSource {
   batchFetchCatalogueDocuments(
     catalogueIds: Array<CatalogueId>,
   ): Promise<Array<CatalogueData>>;
+  writeCatalogueDocument(
+    catalogueId: CatalogueId,
+    document: any,
+  ): Promise<boolean>;
 }
 
 export class CatalogueDataSource
@@ -48,6 +52,20 @@ export class CatalogueDataSource
         document: response.document ? JSON.parse(response.document) : undefined,
       }))
       .filter((document) => document.document) as Array<CatalogueData>;
+  };
+
+  public writeCatalogueDocument = async (
+    catalogueId: CatalogueId,
+    document: Record<string, unknown>,
+  ): Promise<boolean> => {
+    const key = toCatalogueKey(catalogueId);
+    return await this.dynamoDbClient
+      .putItem(key, document)
+      .then(() => true)
+      .catch((error) => {
+        console.log(`[Error] - Failed to write ${catalogueId}`);
+        return false;
+      });
   };
 }
 
@@ -79,6 +97,10 @@ export class StubCatalogueDataSource
           : undefined,
       }))
       .filter((document) => document.document);
+
+  public writeCatalogueDocument(catalogueId: CatalogueId, document: any) {
+    return Promise.resolve(false);
+  }
 }
 
 const toCatalogueKey = (catalogueId: CatalogueId) =>
