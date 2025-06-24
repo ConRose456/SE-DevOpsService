@@ -27,11 +27,22 @@ type SignOutPayload {
   success: Boolean!
 }
 
+type ContributeBook {
+  alreadyExists: Boolean!
+  success: Boolean!
+}
+
 type Mutation {
   signIn(username: String!, password: String!): AuthPayload!
   signUp(username: String!, password: String!): SignUpPayload!
   signOut: SignOutPayload!
   userOwned: UserOwned
+  contributeBook(
+    id: String!
+    title: String!
+    authors: [String!]!
+    description: String!
+  ): ContributeBook
 }
 
 type UserOwned {

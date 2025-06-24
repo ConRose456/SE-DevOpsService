@@ -2,6 +2,7 @@ import { signInResolver } from "./auth/signIn";
 import { signOutResolver } from "./auth/signOut";
 import { signUpResolver } from "./auth/signUp";
 import { booksResolver } from "./books/books";
+import { contributeBookResolver } from "./books/contributeBook";
 import { getOwnedBooks } from "./ownedBooks/getOwnedBooks";
 
 export const MAX_PAGE_SIZE = 21;
@@ -21,5 +22,6 @@ export default {
     signUp: signUpResolver,
     signOut: signOutResolver,
     userOwned: (...args) => ({}),
+    contributeBook: contributeBookResolver,
   },
 };
