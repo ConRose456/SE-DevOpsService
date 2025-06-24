@@ -5,12 +5,14 @@ import displayText from "./fields/auth/displayText";
 import query from "./fields/query";
 import addToUserBooksResolver from "./fields/ownedBooks/addToUserBooks";
 import ownedBooks from "./fields/ownedBooks/getOwnedBooks";
+import removeOwnedBooksResolver from "./fields/ownedBooks/removeOwnedBooks";
 
 const resolversConfig = [
   query,
   validity,
   displayText,
   addToUserBooksResolver,
+  removeOwnedBooksResolver,
   ownedBooks,
 ];
 
