@@ -11,7 +11,7 @@ export const displayTextResolver = async (
   const auth = await context.isAuthed();
 
   return {
-    text: auth.decoded?.userId ? auth.decoded.userId : "",
+    text: auth?.decoded?.userId ? auth.decoded.userId : "",
   };
 };
 

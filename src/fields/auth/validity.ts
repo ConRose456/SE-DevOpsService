@@ -8,11 +8,11 @@ export const validityResolver = async (
   info,
 ): Promise<Validity> => {
   const auth = await context.isAuthed();
-  return auth.decoded?.userId
+  return auth?.decoded?.userId
     ? {
         isValid: true,
-        expireDate: auth.decoded.exp ?? "",
-        isAdmin: auth.decoded.isAdmin ?? false,
+        expireDate: auth?.decoded?.exp ?? "",
+        isAdmin: auth?.decoded?.isAdmin ?? false,
       }
     : {
         isValid: false,
