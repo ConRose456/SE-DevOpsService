@@ -13,9 +13,7 @@ type CatalogueData = {
 };
 
 export interface ICatalogueDataSource {
-  fetchCatalogueDocument(
-    catalogueId: CatalogueId,
-  ): Promise<Array<CatalogueData>>;
+  fetchCatalogueDocument(catalogueId: CatalogueId): Promise<CatalogueData>;
   batchFetchCatalogueDocuments(
     catalogueIds: Array<CatalogueId>,
   ): Promise<Array<CatalogueData>>;
@@ -37,7 +35,9 @@ export class CatalogueDataSource
   }
 
   public fetchCatalogueDocument = async (catalogueId: CatalogueId) => {
-    return await this.batchFetchCatalogueDocuments([catalogueId])[0];
+    return await this.batchFetchCatalogueDocuments([catalogueId]).then((res) =>
+      res?.length ? res[0] : undefined,
+    );
   };
 
   public batchFetchCatalogueDocuments = async (
@@ -83,8 +83,8 @@ export class StubCatalogueDataSource
 
   public fetchCatalogueDocument = async (
     catalogueId: CatalogueId,
-  ): Promise<Array<CatalogueData>> =>
-    await this.batchFetchCatalogueDocuments([catalogueId]);
+  ): Promise<CatalogueData> =>
+    await this.batchFetchCatalogueDocuments([catalogueId])[0];
 
   public batchFetchCatalogueDocuments = async (
     catalogueIds: Array<CatalogueId>,

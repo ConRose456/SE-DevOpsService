@@ -11,7 +11,7 @@ export const addToUserBooksResolver = async (
   const isAuthed = await context.isAuthed();
   const decoded = isAuthed?.decoded;
 
-  if (decoded.userId) {
+  if (decoded?.userId) {
     try {
       const data =
         await context.dataSources.catalogue.batchFetchCatalogueDocuments([

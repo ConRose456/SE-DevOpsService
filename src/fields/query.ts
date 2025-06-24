@@ -2,6 +2,7 @@ import { signInResolver } from "./auth/signIn";
 import { signOutResolver } from "./auth/signOut";
 import { signUpResolver } from "./auth/signUp";
 import { booksResolver } from "./books/books";
+import { getOwnedBooks } from "./ownedBooks/getOwnedBooks";
 
 export const MAX_PAGE_SIZE = 21;
 
@@ -12,6 +13,7 @@ export default {
         (data) => data.edges[0].node,
       ),
     books: booksResolver,
+    ownedBooks: getOwnedBooks,
     auth: (...args) => ({}),
   },
   Mutation: {

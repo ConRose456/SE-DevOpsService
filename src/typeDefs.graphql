@@ -6,7 +6,12 @@ type Query {
     after: String
     filter: BooksFilter
   ): BookEdges
+  ownedBooks: OwnedBooks!
   auth: isAuthed
+}
+
+type OwnedBooks {
+  books(first: Int!, after: String, filter: BooksFilter): BookEdges
 }
 
 type AuthPayload {

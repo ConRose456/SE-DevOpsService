@@ -22,7 +22,7 @@ describe("Books resolver", () => {
 
   it("returns empty when no data", async () => {
     const result = await booksResolver(
-      {},
+      [],
       { first: 1, ids: ["123456789"] },
       stubContext,
       {} as any,
@@ -38,7 +38,7 @@ describe("Books resolver", () => {
     );
 
     const result = await booksResolver(
-      {},
+      [],
       { first: 1, ids: ["123456789"] },
       stubContext,
       {} as any,
@@ -60,7 +60,7 @@ describe("Books resolver", () => {
     );
 
     const result = await booksResolver(
-      {},
+      [],
       {
         first: 1,
         ids: ["123456789", "1234567891"],

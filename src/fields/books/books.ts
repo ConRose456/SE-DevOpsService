@@ -9,13 +9,18 @@ import { Context } from "../../context";
 import { paginateResponse } from "../../utils/paginatedList";
 
 export const booksResolver = async (
-  _sources: any,
+  sources: string[],
   args: QueryBooksArgs,
   context: Context,
   _info: GraphQLResolveInfo,
 ): Promise<BookEdges> => {
+  const ids = sources.length ? sources : args.ids;
+
+  if (!ids.length) {
+    return { total: 0, edges: [], hasNext: false };
+  }
   const data = await context.dataSources.catalogue.batchFetchCatalogueDocuments(
-    args.ids.map((id) => ({ id, field: "book" })),
+    ids.map((id) => ({ id, field: "book" })),
   );
 
   const books = data.map(({ document }) => document);
