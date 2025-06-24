@@ -44,3 +44,9 @@ const filterBooks = (books: Array<Book>, filter: BooksFilter) => {
 
 const sortBooks = (books: Array<Book>) =>
   books.sort((a, b) => a.title.localeCompare(b.title));
+
+export default {
+  Home: {
+    books: booksResolver,
+  },
+};

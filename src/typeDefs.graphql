@@ -6,11 +6,16 @@ type Query {
     after: String
     filter: BooksFilter
   ): BookEdges
+  home: Home
   ownedBooks: OwnedBooks!
   auth: isAuthed
 }
 
 type OwnedBooks {
+  books(first: Int!, after: String, filter: BooksFilter): BookEdges
+}
+
+type Home {
   books(first: Int!, after: String, filter: BooksFilter): BookEdges
 }
 
