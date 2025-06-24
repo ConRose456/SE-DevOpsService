@@ -42,6 +42,7 @@ type Mutation {
     title: String!
     authors: [String!]!
     description: String!
+    isEdit: Boolean
   ): ContributeBook
 }
 

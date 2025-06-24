@@ -13,14 +13,18 @@ export const contributeBookResolver = async (
 
   if (decoded?.userId) {
     try {
-      const data = await context.dataSources.catalogue.fetchCatalogueDocument({
-        id: args.id,
-        field: "book",
-      });
-      const bookData = data?.document;
+      if (!args.isEdit) {
+        const data = await context.dataSources.catalogue.fetchCatalogueDocument(
+          {
+            id: args.id,
+            field: "book",
+          },
+        );
+        const bookData = data?.document;
 
-      if (bookData) {
-        return { alreadyExists: true, success: false };
+        if (bookData) {
+          return { alreadyExists: true, success: false };
+        }
       }
 
       const catalogueResponse = await writeToBooksCatalogue(args.id, context);
