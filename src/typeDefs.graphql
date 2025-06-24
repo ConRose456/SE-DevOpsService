@@ -13,12 +13,18 @@ type AuthPayload {
   token: String!
 }
 
+type SignUpPayload {
+  token: String!
+  alreadyExists: Boolean!
+}
+
 type SignOutPayload {
   success: Boolean!
 }
 
 type Mutation {
   signIn(username: String!, password: String!): AuthPayload!
+  signUp(username: String!, password: String!): SignUpPayload!
   signOut: SignOutPayload!
   userOwned: UserOwned
 }

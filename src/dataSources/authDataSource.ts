@@ -18,6 +18,7 @@ type UserData = {
 export interface IAuthDataSource {
   fetchUserDocument: (id: UserId) => any;
   fetchJwtSecret: () => any;
+  createUser: (username: string, document: any) => any;
 }
 
 export class AuthDataSource extends DataSource implements IAuthDataSource {
@@ -54,6 +55,23 @@ export class AuthDataSource extends DataSource implements IAuthDataSource {
       throw error;
     }
   };
+
+  createUser = async (username: string, document: any) => {
+    const data = await this.fetchUserDocument({ username });
+    const userData = data.document;
+
+    if (userData) {
+      return { alreadyExists: true, success: false };
+    }
+
+    return await this.dynamoDbClient
+      .putItem(username, document)
+      .then(() => ({ alreadyExists: false, success: true }))
+      .catch((error) => {
+        console.log(`[Error] - Failed to create new user - ${error}`);
+        return { alreadyExists: false, success: false };
+      });
+  };
 }
 
 export class StubAuthDataSource extends DataSource implements IAuthDataSource {
@@ -64,6 +82,7 @@ export class StubAuthDataSource extends DataSource implements IAuthDataSource {
     this.map = new Map();
   }
   fetchJwtSecret = () => {};
+  createUser = (username: string, document: any) => {};
 
   clear = () => this.map.clear();
 
