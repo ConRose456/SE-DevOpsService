@@ -3,11 +3,11 @@ import { stubContext } from "../../stubContext";
 
 describe("DisplayText Resolver", () => {
   beforeEach(() => {
-    process.env.JWT_SECRET = "mock-secret";
+    process.env.LOCAL_SECRET = "mock-secret";
   });
 
   afterAll(() => {
-    delete process.env.JWT_SECRET;
+    delete process.env.LOCAL_SECRET;
   });
 
   it("returns user text respose when valid token", async () => {

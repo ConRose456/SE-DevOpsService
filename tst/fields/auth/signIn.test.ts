@@ -3,12 +3,12 @@ import { stubContext } from "../../stubContext";
 
 describe("Sign In Resolver", () => {
   beforeEach(() => {
-    process.env.JWT_SECRET = "mock-secret";
+    process.env.LOCAL_SECRET = "mock-secret";
     stubContext.dataSources.auth.clear();
   });
 
   afterAll(() => {
-    delete process.env.JWT_SECRET;
+    delete process.env.LOCAL_SECRET;
   });
 
   it("Throws Invalid credentials when login details are incorrect", async () => {
@@ -38,7 +38,7 @@ describe("Sign In Resolver", () => {
   });
 
   it("Creates token if valid user", async () => {
-    console.log(process.env.JWT_SECRET);
+    console.log(process.env.LOCAL_SECRET);
     stubContext.dataSources.auth.stubUserDocument(
       { username: "fake-user" },
       JSON.stringify({

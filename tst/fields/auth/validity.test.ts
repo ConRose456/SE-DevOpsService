@@ -3,11 +3,11 @@ import { stubContext } from "../../stubContext";
 
 describe("Validity Resolver", () => {
   beforeEach(() => {
-    process.env.JWT_SECRET = "mock-secret";
+    process.env.LOCAL_SECRET = "mock-secret";
   });
 
   afterAll(() => {
-    delete process.env.JWT_SECRET;
+    delete process.env.LOCAL_SECRET;
   });
 
   it("returns valid respose when valid token", async () => {
