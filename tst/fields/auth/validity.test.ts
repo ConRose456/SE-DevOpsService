@@ -11,7 +11,7 @@ describe("Validity Resolver", () => {
   });
 
   it("returns valid respose when valid token", async () => {
-    const result = validityResolver({}, {}, stubContext, {} as any);
+    const result = await validityResolver({}, {}, stubContext, {} as any);
 
     expect(result).toEqual({
       isValid: true,
@@ -21,7 +21,7 @@ describe("Validity Resolver", () => {
   });
 
   it("returns invalid respose when no valid token", async () => {
-    const result = validityResolver(
+    const result = await validityResolver(
       {},
       {},
       {

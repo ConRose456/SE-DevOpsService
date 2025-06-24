@@ -10,7 +10,9 @@ export const signOutResolver = async (
   const auth = context.isAuthed();
   const userId = auth.decoded?.userId ?? "";
 
-  if (context.res) {
+  if (context.event) {
+    context.setCookie("bw-jwt-auth-token", "");
+  } else if (context.res) {
     context.res.cookie("bw-jwt-auth-token", "", {
       httpOnly: true,
       secure: true,

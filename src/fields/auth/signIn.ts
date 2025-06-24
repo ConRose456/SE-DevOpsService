@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { Context } from "../../context";
 import { MutationSignInArgs } from "../../generated/graphqlTypes";
 import jwt from "jsonwebtoken";
-import { randomBytes, scrypt, timingSafeEqual } from "crypto";
+import { scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 
 export const signInResolver = async (
@@ -30,29 +30,32 @@ export const signInResolver = async (
       isAdmin: document.isAdmin,
     };
 
+    const secret = await context.dataSources.auth.fetchJwtSecret();
     const token = jwt.sign(
       {
         userId: user.userId,
         isAdmin: user.isAdmin,
       },
-      process.env.JWT_SECRET!,
+      secret ?? process.env.JWT_SECRET!,
       {
         expiresIn: "1h",
       },
     );
 
-    if (context.req) {
-      context.res.cookie("bw-jwt-auth-token", token, {
+    if (context.event) {
+      context.setCookie("bw-jwt-auth-token", token);
+    } else if (context.res) {
+      context.express.res.cookie("bw-jwt-auth-token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict",
         maxAge: 1000 * 60 * 60 * 24 * 365,
         path: "/",
       });
-    } else {
-      console.log("Lambda");
     }
-
+    console.log(
+      `[SIGN IN ATTEMPT] User: ${username} at ${new Date().toISOString()} - has signed in.`,
+    );
     return { token };
   }
 
@@ -68,17 +71,8 @@ async function verifyPassword(
   plainPassword: string,
   hash: string,
 ): Promise<boolean> {
-    console.log("Verify");
-  const [salt, key] = hash.split(':');
-  const keyBuffer = Buffer.from(key, 'hex');
+  const [salt, key] = hash.split(":");
+  const keyBuffer = Buffer.from(key, "hex");
   const derivedKey = (await scryptAsync(plainPassword, salt, 64)) as Buffer;
   return timingSafeEqual(keyBuffer, derivedKey);
 }
-
-export async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(32).toString('hex');
-  const derivedKey = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${salt}:${derivedKey.toString('hex')}`;
-}
-
-hashPassword("fake-password").then(console.log)

@@ -2,13 +2,13 @@ import { GraphQLResolveInfo } from "graphql";
 import { Context } from "../../context";
 import { DisplayText } from "../../generated/graphqlTypes";
 
-export const displayTextResolver = (
+export const displayTextResolver = async (
   _source: any,
   _args: any,
   context: Context,
   _info: GraphQLResolveInfo,
-): DisplayText => {
-  const auth = context.isAuthed();
+): Promise<DisplayText> => {
+  const auth = await context.isAuthed();
 
   return {
     text: auth.decoded?.userId ? auth.decoded.userId : "",
@@ -20,6 +20,3 @@ export default {
     displayText: displayTextResolver,
   },
 };
-
-// const secret = crypto.randomBytes(64).toString('hex'); // Example: 64 bytes, hexadecimal string
-// console.log(secret);

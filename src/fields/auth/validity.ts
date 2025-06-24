@@ -1,13 +1,13 @@
 import { Context } from "../../context";
 import { Validity } from "../../generated/graphqlTypes";
 
-export const validityResolver = (
+export const validityResolver = async (
   source,
   args,
   context: Context,
   info,
-): Validity => {
-  const auth = context.isAuthed();
+): Promise<Validity> => {
+  const auth = await context.isAuthed();
   return auth.decoded?.userId
     ? {
         isValid: true,
