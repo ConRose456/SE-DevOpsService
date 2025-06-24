@@ -9,31 +9,32 @@ export const addToUserBooksResolver = async (
   info: GraphQLResolveInfo,
 ) => {
   const isAuthed = await context.isAuthed();
+  const decoded = isAuthed?.decoded;
 
-  if (isAuthed.userId) {
+  if (decoded.userId) {
     try {
       const data =
         await context.dataSources.catalogue.batchFetchCatalogueDocuments([
-          { id: isAuthed.userId, field: "ownedBooks" },
+          { id: decoded.userId, field: "ownedBooks" },
         ]);
 
       const ownedBook = data.map(({ document }) => document)[0];
       const newDocument = createNewOwnedBooks(
         args.id,
-        isAuthed.userId,
+        decoded.userId,
         ownedBook,
       );
 
       const reponse =
         await context.dataSources.catalogue.writeCatalogueDocument(
-          { id: isAuthed.userId, field: "ownedBooks" },
+          { id: decoded.userId, field: "ownedBooks" },
           newDocument,
         );
 
       return reponse ? { success: true } : { success: false };
     } catch (error) {
       console.log(
-        `[Error] Failed to write document ${"ownedBooks|" + isAuthed.userId} - ${error}`,
+        `[Error] Failed to write document ${"ownedBooks|" + decoded.userId} - ${error}`,
       );
       return { success: false };
     }
