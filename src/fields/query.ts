@@ -1,3 +1,4 @@
+import { deleteUserResolver } from "./auth/deleteUser";
 import { signInResolver } from "./auth/signIn";
 import { signOutResolver } from "./auth/signOut";
 import { signUpResolver } from "./auth/signUp";
@@ -25,5 +26,6 @@ export default {
     signOut: signOutResolver,
     userOwned: (...args) => ({}),
     contributeBook: contributeBookResolver,
+    deleteUser: deleteUserResolver,
   },
 };

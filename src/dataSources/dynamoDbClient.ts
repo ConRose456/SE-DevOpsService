@@ -3,8 +3,10 @@ import {
   BatchGetItemCommandInput,
   DynamoDBClient,
   DynamoDBClientConfig,
+  ScanCommand,
 } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { timeStamp } from "console";
 import { promisify } from "util";
 import { gunzipSync, gzip } from "zlib";
 
@@ -71,6 +73,41 @@ export class DynamoDbClient {
       throw new Error("Failed to batch fetch items from DynamoDB");
     }
   }
+
+  public scanItems = async () => {
+    let items: any[] = [];
+    let ExclusiveStartKey: Record<string, any> | undefined;
+
+    try {
+      do {
+        const command = new ScanCommand({
+          TableName: this.tableName,
+          ExclusiveStartKey,
+        });
+
+        const response = await this.docClient.send(command);
+
+        if (!response || !response.Items) {
+          console.warn(`Empty response received for table ${this.tableName}`);
+          break;
+        }
+
+        items = items.concat(response.Items);
+        ExclusiveStartKey = response.LastEvaluatedKey;
+      } while (ExclusiveStartKey);
+
+      return items.map((item) => ({
+        id: item[".partitionKey"].S,
+        document: gunzipSync(Buffer.from(item.document.S, "base64")).toString(
+          "utf-8",
+        ),
+        timestamp: item.timestamp.N,
+      }));
+    } catch (error: any) {
+      console.error(`Failed to scan table ${this.tableName}:`, error);
+      throw new Error(`DynamoDB scan failed: ${error.message}`);
+    }
+  };
 
   public putItem = async (
     key: string,

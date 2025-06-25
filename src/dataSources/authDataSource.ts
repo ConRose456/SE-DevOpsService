@@ -19,6 +19,7 @@ export interface IAuthDataSource {
   fetchUserDocument: (id: UserId) => any;
   fetchJwtSecret: () => any;
   createUser: (username: string, document: any) => any;
+  getAllUsers: () => any;
 }
 
 export class AuthDataSource extends DataSource implements IAuthDataSource {
@@ -72,6 +73,16 @@ export class AuthDataSource extends DataSource implements IAuthDataSource {
         return { alreadyExists: false, success: false };
       });
   };
+
+  getAllUsers = async () => {
+    const data = await this.dynamoDbClient.scanItems();
+    return (
+      data?.map((item) => ({
+        ...item,
+        document: item?.document ? JSON.parse(item.document) : undefined,
+      })) ?? []
+    );
+  };
 }
 
 export class StubAuthDataSource extends DataSource implements IAuthDataSource {
@@ -81,7 +92,10 @@ export class StubAuthDataSource extends DataSource implements IAuthDataSource {
     super();
     this.map = new Map();
   }
+  getAllUsers = () => {};
+
   fetchJwtSecret = () => {};
+
   createUser = (username: string, document: any) => {};
 
   clear = () => this.map.clear();

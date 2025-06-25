@@ -7,6 +7,7 @@ import addToUserBooksResolver from "./fields/ownedBooks/addToUserBooks";
 import ownedBooks from "./fields/ownedBooks/getOwnedBooks";
 import removeOwnedBooksResolver from "./fields/ownedBooks/removeOwnedBooks";
 import booksResolver from "./fields/books/books";
+import getAllUsersResolver from "./fields/auth/getAllUsers";
 
 const resolversConfig = [
   query,
@@ -16,6 +17,7 @@ const resolversConfig = [
   removeOwnedBooksResolver,
   ownedBooks,
   booksResolver,
+  getAllUsersResolver,
 ];
 
 const resolvers = merge(...resolversConfig);
