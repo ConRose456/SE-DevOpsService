@@ -23,7 +23,7 @@ export const getAllUsersResolver = async (
   console.log(
     `[UNAUTHORISED ACCESS ATTEMPT] - ${userId?.length ? "User " + userId : "An unknown user"} has attempted to access other users data.`,
   );
-  return undefined;
+  throw Error("[UNAUTHORISED] - User not authorised");
 };
 
 export default {

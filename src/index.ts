@@ -4,7 +4,7 @@ import resolvers from "./resolvers";
 import { dataSources } from "./dataSources";
 import { context, globalCookie } from "./context";
 
-const foo = new ApolloServer({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources,
@@ -14,14 +14,14 @@ const foo = new ApolloServer({
   expressGetMiddlewareOptions: {
     cors: {
       credentials: true,
-      origin: "https://d1bp0xz6hl332p.cloudfront.net",
+      origin: process.env.CLOUDFRONT_DOMAIN!,
     },
   },
 });
 
 export const handler = async (event, context, callback) => {
   console.log(`[Query] - ${event.body}`);
-  const response = await foo(event, context, callback);
+  const response = await server(event, context, callback);
 
   const cookie = globalCookie.value;
   globalCookie.value = "";
@@ -32,7 +32,7 @@ export const handler = async (event, context, callback) => {
     headers: {
       ...(response.headers || {}),
       "Set-Cookie": cookie.length ? cookie : undefined,
-      "Access-Control-Allow-Origin": "https://d1bp0xz6hl332p.cloudfront.net",
+      "Access-Control-Allow-Origin": process.env.CLOUDFRONT_DOMAIN!,
       "Access-Control-Allow-Credentials": "true",
     },
   };
