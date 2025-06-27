@@ -68,6 +68,12 @@ type isAuthed {
   allUsers: [User]
 }
 
+type Validity {
+  expireDate: String
+  isValid: Boolean!
+  isAdmin: Boolean!
+}
+
 type User {
   username: String!
   isAdmin: Boolean!
@@ -94,4 +100,8 @@ type Book {
   authors: [String!]!
   description: String
   images: [String]
+}
+
+type DisplayText {
+  text: String!
 }

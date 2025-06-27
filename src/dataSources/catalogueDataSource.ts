@@ -84,7 +84,9 @@ export class StubCatalogueDataSource
   public fetchCatalogueDocument = async (
     catalogueId: CatalogueId,
   ): Promise<CatalogueData> =>
-    await this.batchFetchCatalogueDocuments([catalogueId])[0];
+    await this.batchFetchCatalogueDocuments([catalogueId]).then(
+      (res) => res[0],
+    );
 
   public batchFetchCatalogueDocuments = async (
     catalogueIds: Array<CatalogueId>,

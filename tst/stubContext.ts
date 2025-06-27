@@ -1,4 +1,3 @@
-import { Context } from "../src/context";
 import { StubAuthDataSource } from "../src/dataSources/authDataSource";
 import { StubCatalogueDataSource } from "../src/dataSources/catalogueDataSource";
 

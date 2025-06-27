@@ -87,18 +87,35 @@ export class AuthDataSource extends DataSource implements IAuthDataSource {
 
 export class StubAuthDataSource extends DataSource implements IAuthDataSource {
   private map: Map<string, string>;
+  private createUserMap: Map<string, any>;
 
   constructor() {
     super();
     this.map = new Map();
+    this.createUserMap = new Map();
   }
-  getAllUsers = () => {};
+
+  clear = () => {
+    this.map.clear();
+    this.createUserMap.clear();
+  };
+
+  getAllUsers = () => {
+    return Array.from(this.map).map(([username, document]) => ({
+      username,
+      document: document ? JSON.parse(document) : undefined,
+    }));
+  };
 
   fetchJwtSecret = () => {};
 
-  createUser = (username: string, document: any) => {};
+  stubCreateUser = (username: string, response: any) => {
+    this.createUserMap.set(username, response);
+  };
 
-  clear = () => this.map.clear();
+  createUser = (username: string, document: any) => {
+    return this.createUserMap.get(username);
+  };
 
   stubUserDocument = ({ username }: UserId, document: string) => {
     this.map.set(username, document);
